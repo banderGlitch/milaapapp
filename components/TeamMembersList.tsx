@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
 import { Contact, fetchContacts } from '../constants/contacts';
+import { Ionicons } from '@expo/vector-icons';
 
 const ITEMS_PER_PAGE = 5;
 
@@ -49,11 +50,14 @@ export default function TeamMembersList() {
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.nameText}>{item.name}</Text>
-          <Text style={styles.phoneText}>{item.phone}</Text>
+          <View style={styles.phoneContainer}>
+            <Ionicons name="call-outline" size={14} color="#666" />
+            <Text style={styles.phoneText}>{item.phone}</Text>
+          </View>
         </View>
       </View>
-      <TouchableOpacity>
-        <Text style={styles.deleteText}>Delete</Text>
+      <TouchableOpacity style={styles.deleteButton}>
+        <Ionicons name="trash-outline" size={20} color="#C2185B" />
       </TouchableOpacity>
     </View>
   );
@@ -78,113 +82,141 @@ export default function TeamMembersList() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+    <View style={styles.header}>
+      <View style={styles.headerLeft}>
+        <Ionicons name="people-outline" size={24} color="#333" />
         <Text style={styles.headerText}>Team members</Text>
       </View>
-
-      <FlatList
-        data={contacts}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        onEndReached={loadContacts}
-        onEndReachedThreshold={0.5}
-        ListFooterComponent={renderFooter}
-        ListEmptyComponent={renderEmpty}
-        showsVerticalScrollIndicator={false}
-      />
-
-      <TouchableOpacity style={styles.addButton}>
-        <Text style={styles.addButtonText}>Add members</Text>
+      <TouchableOpacity>
+        <Ionicons name="information-circle-outline" size={24} color="#2D9CDB" />
       </TouchableOpacity>
     </View>
-  );
+
+    <FlatList
+      data={contacts}
+      renderItem={renderItem}
+      keyExtractor={item => item.id}
+      onEndReached={loadContacts}
+      onEndReachedThreshold={0.5}
+      ListFooterComponent={renderFooter}
+      ListEmptyComponent={renderEmpty}
+      showsVerticalScrollIndicator={false}
+    />
+
+    <TouchableOpacity style={styles.addButton}>
+      <Text style={styles.addButtonText}>Add members</Text>
+    </TouchableOpacity>
+  </View>
+);
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 16,
-  },
-  header: {
-    marginBottom: 20,
-  },
-  headerText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
-  },
-  memberCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 12,
-    backgroundColor: '#FFF',
-    borderRadius: 8,
-    marginBottom: 8,
-    borderWidth: 1,
-    borderColor: '#F0F0F0',
-  },
-  memberInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#FFE8E8',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  avatarText: {
-    color: '#333',
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  textContainer: {
-    marginLeft: 12,
-    flex: 1,
-  },
-  nameText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#333',
-  },
-  phoneText: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 2,
-  },
-  deleteText: {
-    color: '#E57373',
-    fontSize: 14,
-  },
-  addButton: {
-    backgroundColor: '#C2185B',
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  addButtonText: {
-    color: '#FFF',
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  loaderContainer: {
-    paddingVertical: 20,
-    alignItems: 'center',
-  },
-  emptyContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 20,
-  },
-  emptyText: {
-    fontSize: 16,
-    color: '#666',
-  },
-});
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      padding: 16,
+    },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 20,
+    },
+    headerLeft: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+    },
+    headerText: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: '#333',
+      marginLeft: 8,
+    },
+    memberCard: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: 12,
+      backgroundColor: '#FFF',
+      borderRadius: 8,
+      marginBottom: 8,
+      borderWidth: 1,
+      borderColor: '#F0F0F0',
+    },
+    memberInfo: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      flex: 1,
+    },
+    avatar: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: '#FFE8E8',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    avatarText: {
+      color: '#C2185B',
+      fontSize: 16,
+      fontWeight: '500',
+    },
+    textContainer: {
+      marginLeft: 12,
+      flex: 1,
+    },
+    nameText: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: '#333',
+    },
+    phoneContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: 4,
+      gap: 4,
+    },
+    phoneText: {
+      fontSize: 14,
+      color: '#666',
+      marginLeft: 4,
+    },
+    deleteButton: {
+      padding: 8,
+    },
+    addButton: {
+      backgroundColor: '#C2185B',
+      padding: 16,
+      borderRadius: 25, // Made more rounded
+      alignItems: 'center',
+      marginTop: 16,
+      elevation: 2, // Android shadow
+      shadowColor: '#000', // iOS shadow
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+    },
+    addButtonText: {
+      color: '#FFF',
+      fontSize: 16,
+      fontWeight: '500',
+    },
+    loaderContainer: {
+      paddingVertical: 20,
+      alignItems: 'center',
+    },
+    emptyContainer: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 20,
+    },
+    emptyText: {
+      fontSize: 16,
+      color: '#666',
+    },
+  });
